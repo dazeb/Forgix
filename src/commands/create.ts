@@ -33,13 +33,8 @@ export const createCommand = new Command("create")
 
       let projectName = nameArg || await input({ message: "Project name:", default: "my-app" });
 
-      // Validate package manager
-      const validPM: PackageManager[] = ["npm", "yarn", "pnpm"];
-      const packageManager = validPM.includes(options.packageManager as PackageManager) 
-        ? options.packageManager as PackageManager 
-        : "npm";
-
-      let template = options.template || await select({
+      // Apply default config values if not provided via CLI
+      const template = options.template || config.defaultTemplate || await select({
         message: "Select a Template:",
         choices: [
           new Separator(chalk.yellow("--- Frontend ---")),
@@ -57,6 +52,24 @@ export const createCommand = new Command("create")
           { name: "GitHub Repository", value: "github-prompt" }
         ],
       });
+
+      // Validate package manager (use config default if not provided)
+      const validPM: PackageManager[] = ["npm", "yarn", "pnpm"];
+      const packageManagerInput = options.packageManager || config.defaultPackageManager || "npm";
+      const packageManager = validPM.includes(packageManagerInput as PackageManager) 
+        ? packageManagerInput as PackageManager 
+        : "npm";
+
+      // Apply default flags from config (only if not explicitly overridden)
+      const configFlags = config.defaultFlags || [];
+      const git = options.git !== undefined ? options.git : configFlags.includes("--git") || config.autoGit;
+      const open = options.open !== undefined ? options.open : configFlags.includes("--open");
+      const typescript = options.typescript !== undefined ? options.typescript : configFlags.includes("--ts");
+      const eslint = options.eslint !== undefined ? options.eslint : configFlags.includes("--eslint");
+      const prettier = options.prettier !== undefined ? options.prettier : configFlags.includes("--prettier");
+      const test = options.test !== undefined ? options.test : configFlags.includes("--test");
+      const docker = options.docker !== undefined ? options.docker : configFlags.includes("--docker");
+      const ci = options.ci !== undefined ? options.ci : configFlags.includes("--ci");
 
       const author = await input({ message: "Author Name:", default: config.defaultAuthor });
       const license = await select({
@@ -84,18 +97,18 @@ export const createCommand = new Command("create")
         name: projectName,
         template,
         skipInstall: options.skipInstall,
-        git: options.git || config.autoGit,
-        open: options.open,
+        git,
+        open,
         variables: { author, license },
         plugins: selectedPlugins,
         packageManager,
-        typescript: options.typescript,
+        typescript,
         css: options.css,
-        docker: options.docker,
-        eslint: options.eslint,
-        prettier: options.prettier,
-        test: options.test,
-        ci: options.ci
+        docker,
+        eslint,
+        prettier,
+        test,
+        ci
       });
 
     } catch (error) {

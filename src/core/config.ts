@@ -9,13 +9,19 @@ export interface ForgixConfig {
   defaultLicense: string;
   preferredEditor: string;
   autoGit: boolean;
+  defaultTemplate: string;
+  defaultPackageManager: "npm" | "yarn" | "pnpm";
+  defaultFlags: string[];
 }
 
 const defaultConfig: ForgixConfig = {
   defaultAuthor: "Developer",
   defaultLicense: "MIT",
   preferredEditor: "code",
-  autoGit: true
+  autoGit: true,
+  defaultTemplate: "react-vite",
+  defaultPackageManager: "npm",
+  defaultFlags: []
 };
 
 export async function getConfig(): Promise<ForgixConfig> {
