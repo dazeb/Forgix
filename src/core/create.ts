@@ -35,7 +35,15 @@ export async function runCreate(options: {
     let templatePath = "";
 
     if (template.startsWith("github:")) {
-      const repoUrl = `https://github.com/${template.replace("github:", "")}.git`;
+      const repoPart = template.replace("github:", "");
+      
+      // SECURITY: Validate GitHub repo format to prevent path traversal
+      const githubRegex = /^([a-zA-Z0-9][a-zA-Z0-9-_]*\/)?[a-zA-Z0-9][a-zA-Z0-9-_]*$/;
+      if (!githubRegex.test(repoPart) || repoPart.includes("..") || repoPart.includes("/.")) {
+        throw new Error("Invalid GitHub repository format.");
+      }
+      
+      const repoUrl = `https://github.com/${repoPart}.git`;
       
       // --- SECURITY AUDIT FIX: REMOTE WARNING ---
       console.log(chalk.red.bold("\n⚠️  SECURITY WARNING"));
@@ -50,7 +58,20 @@ export async function runCreate(options: {
       
       const spinner = ora(`Cloning remote template from GitHub...`).start();
       await execa("git", ["clone", "--depth", "1", repoUrl, targetPath]);
-      fs.rmSync(path.join(targetPath, ".git"), { recursive: true, force: true });
+      
+      // SECURITY: Verify .git was removed - fail if it persists (prevents attacker-controlled remote)
+      const gitDir = path.join(targetPath, ".git");
+      if (fs.existsSync(gitDir)) {
+        try {
+          fs.rmSync(gitDir, { recursive: true, force: true });
+        } catch {
+          throw new Error("Failed to remove .git directory - clone may be compromised.");
+        }
+        if (fs.existsSync(gitDir)) {
+          throw new Error("Security error: .git directory still present after removal.");
+        }
+      }
+      
       spinner.succeed(chalk.green("Remote template cloned."));
     } else {
       const spinner = ora(`Fetching ${template} template...`).start();
@@ -65,6 +86,25 @@ export async function runCreate(options: {
 
       if (customLinks[template]) {
         templatePath = customLinks[template];
+        
+        // SECURITY: Validate the linked path to prevent path traversal
+        const resolvedPath = path.resolve(templatePath);
+        const normalizedPath = path.normalize(templatePath);
+        if (normalizedPath.includes("..") || !path.isAbsolute(resolvedPath)) {
+          throw new Error("Invalid template path in custom link.");
+        }
+        
+        // SECURITY: Verify it's a directory
+        const stat = fs.statSync(resolvedPath);
+        if (!stat.isDirectory()) {
+          throw new Error("Template path must be a directory, not a file.");
+        }
+        
+        // SECURITY: Block copying of sensitive system directories
+        const sensitiveDirs = [".ssh", ".gnupg", ".aws", ".npm", ".cache"];
+        if (sensitiveDirs.some(dir => resolvedPath.includes(dir))) {
+          throw new Error("Cannot use system directories as templates.");
+        }
       } else {
         templatePath = path.join(__dirname, "../../templates", template);
       }
@@ -125,7 +165,7 @@ export async function runCreate(options: {
 
       for (const attempt of openCommands) {
         try {
-          await execa(attempt.cmd, attempt.args, { cwd: targetPath, shell: true });
+          await execa(attempt.cmd, attempt.args, { cwd: targetPath, shell: false });
           console.log(chalk.magenta("📂 Project opened in VS Code."));
           break; 
         } catch {
