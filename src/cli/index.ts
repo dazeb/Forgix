@@ -4,10 +4,10 @@ import { createCommand } from "../commands/create.js";
 import { addCommand } from "../commands/add.js";
 import { listCommand } from "../commands/list.js";
 import { doctorCommand } from "../commands/doctor.js";
+import { linkCommand } from "../commands/link.js";
 
 const program = new Command();
 
-// --- NEW: THE LOGO BANNER ---
 function showBanner() {
   console.log(chalk.cyan(`
   ███████╗ ██████╗ ██████╗  ██████╗ ██╗██╗  ██╗
@@ -17,20 +17,20 @@ function showBanner() {
   ██║     ╚██████╔╝██║  ██║╚██████╔╝██║██╔╝ ██╗
   ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═╝
   `));
-  console.log(chalk.gray(`  v1.0.4 - The Elite Scaffolding Engine\n`));
+  console.log(chalk.gray(`  v1.0.6 - The Elite Scaffolding Engine\n`));
 }
 
 program
   .name("forgix")
   .description("An elite project scaffolding CLI")
-  .version("1.0.4");
+  .version("1.0.6");
 
-// Show banner before executing commands
 showBanner();
 
 program.addCommand(createCommand);
 program.addCommand(addCommand);
 program.addCommand(listCommand);
 program.addCommand(doctorCommand);
+program.addCommand(linkCommand);
 
 program.parse(process.argv);

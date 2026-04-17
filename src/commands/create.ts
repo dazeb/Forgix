@@ -1,7 +1,13 @@
 import { Command } from "commander";
-import { input, select, Separator } from "@inquirer/prompts"; // Added Separator
+import { input, select, checkbox, Separator } from "@inquirer/prompts";
 import { runCreate } from "../core/create.js";
 import chalk from "chalk";
+import fs from "fs-extra";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const createCommand = new Command("create")
   .description("Scaffold a new project")
@@ -41,13 +47,26 @@ export const createCommand = new Command("create")
         ]
       });
 
+      // --- NEW: INTERACTIVE PLUGIN SELECTION ---
+      const pluginsPath = path.join(__dirname, "../../plugins");
+      let availablePlugins: string[] = [];
+      if (fs.existsSync(pluginsPath)) {
+        availablePlugins = fs.readdirSync(pluginsPath);
+      }
+
+      const selectedPlugins = await checkbox({
+        message: "Select Plugins to inject:",
+        choices: availablePlugins.map(p => ({ name: p, value: p }))
+      });
+
       await runCreate({
         name: projectName,
         template,
         skipInstall: options.skipInstall,
         git: options.git,
         open: options.open,
-        variables: { author, license }
+        variables: { author, license },
+        plugins: selectedPlugins // Passing selected plugins to core
       });
 
     } catch (error) {
