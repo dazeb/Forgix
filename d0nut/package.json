@@ -1,0 +1,13 @@
+{
+  "name": "d0nut",
+  "version": "1.0.0",
+  "description": "API scaffolded by Forgix",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
