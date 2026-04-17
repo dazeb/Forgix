@@ -1,8 +1,9 @@
 <div align="center">
-  <h1>🚀 Forgix</h1>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12&height=200&section=header&text=Forgix&fontSize=80&animation=fadeIn&fontAlignY=35" width="100%" alt="Forgix Animated Banner" />
+  <br />
   <p><b>An elite, blazing-fast project scaffolding CLI designed to eliminate project setup fatigue.</b></p>
-  <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version" />
-  <img src="https://img.shields.io/badge/Node.js-%3E%3D18-green.svg" alt="Node" />
+  <img src="https://img.shields.io/npm/v/@7h41c/forgix.svg?style=flat-square" alt="NPM Version" />
+  <img src="https://img.shields.io/badge/Node.js-%3E%3D18-green.svg?style=flat-square" alt="Node" />
 </div>
 
 ---
@@ -12,20 +13,24 @@ Starting a new project shouldn't mean spending 20 minutes copying boilerplate, m
 
 ## ✨ Elite Features
 * **Interactive Prompts:** Clean, modern CLI interface for seamlessly selecting project types.
-* **Intelligent Templating:** Automatically scans and injects your project name (and other custom variables) into configuration files.
+* **Intelligent Templating:** Automatically scans and injects your project name into configuration files.
 * **Remote GitHub Cloning:** Pull down *any* public GitHub repository to use as a starting point, instantly stripping old commit history so you start fresh.
-* **Auto-Install:** Automatically triggers your package manager to install dependencies so you are ready to code immediately.
-* **Power-User Flags:** Bypass prompts entirely using single-line commands for instant, zero-friction scaffolding.
+* **Auto-Install:** Automatically triggers your package manager to install dependencies.
+* **Speed Mode:** Bypass prompts and skip installations using flags for instant, 2-second scaffolding.
+* **Plugin Injection:** Drop features (like Dockerfiles) directly into existing projects without overwriting your code.
 
-## 🚀 Installation
+## 🚀 Installation & Usage
 
-If you are developing Forgix locally, you can build and link it:
+You can run Forgix instantly without installing it globally using `npx`:
+
 \`\`\`bash
-git clone https://github.com/7h41c/Forgix.git
-cd Forgix
-npm install
-npm run build
-npm link
+npx -p @7h41c/forgix forgix create
+\`\`\`
+
+Or, install it globally on your machine to use the `forgix` command anywhere:
+
+\`\`\`bash
+npm install -g @7h41c/forgix
 \`\`\`
 
 ## 💻 Demo Commands
@@ -37,7 +42,7 @@ forgix create
 
 **2. Bypass prompts using flags (Speed Mode):**
 \`\`\`bash
-forgix create my-new-app --template node-api
+forgix create my-new-app --template node-api --skip-install
 \`\`\`
 
 **3. Clone a remote repository from GitHub directly:**
@@ -45,10 +50,15 @@ forgix create my-new-app --template node-api
 forgix create remote-app --template github:fireship-io/react-firebase-chat
 \`\`\`
 
+**4. Inject a plugin into an existing project:**
+\`\`\`bash
+cd my-new-app
+forgix add docker
+\`\`\`
+
 ## 🗺️ Roadmap
-We are constantly upgrading Forgix to make it the ultimate developer tool:
-- [ ] Add \`--no-install\` flag to skip dependency installation for faster remote clones.
-- [ ] Implement a plugin system (e.g., \`forgix add docker\` to inject Dockerfiles).
+- [x] Add \`--skip-install\` flag to skip dependency installation for faster remote clones.
+- [x] Implement a plugin system (e.g., \`forgix add docker\` to inject Dockerfiles).
 - [ ] Add official built-in React (Vite), Vue, and Python templates.
 - [ ] Support custom variable injection via CLI flags.
 
