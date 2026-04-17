@@ -37,18 +37,23 @@ export const createCommand = new Command("create")
       const template = options.template || config.defaultTemplate || await select({
         message: "Select a Template:",
         choices: [
-          new Separator(chalk.yellow("--- Frontend ---")),
+          new Separator(chalk.yellow("--- React ---")),
           { name: "React (Vite)", value: "react-vite" },
           { name: "React + TypeScript (Vite)", value: "react-vite-ts" },
+          { name: "React + shadcn/ui (Next.js)", value: "shadcn-next" },
+          new Separator(chalk.green("--- Vue ---")),
           { name: "Vue.js 3", value: "vue-app" },
-          { name: "Next.js", value: "nextjs" },
-          { name: "Svelte", value: "svelte" },
-          new Separator(chalk.blue("--- Backend ---")),
+          new Separator(chalk.blue("--- Next.js ---")),
+          { name: "Next.js 14", value: "nextjs" },
+          new Separator(chalk.magenta("--- Svelte ---")),
+          { name: "Svelte 4", value: "svelte" },
+          new Separator(chalk.red("--- Backend Node ---")),
           { name: "Node.js Express API", value: "node-api" },
           { name: "Express + TypeScript", value: "express-ts" },
+          new Separator(chalk.cyan("--- Python ---")),
           { name: "Python Script", value: "python-script" },
           { name: "Python FastAPI", value: "fastapi" },
-          new Separator(chalk.magenta("--- Remote ---")),
+          new Separator(chalk.gray("--- Remote ---")),
           { name: "GitHub Repository", value: "github-prompt" }
         ],
       });
