@@ -5,6 +5,7 @@ import { addCommand } from "../commands/add.js";
 import { listCommand } from "../commands/list.js";
 import { doctorCommand } from "../commands/doctor.js";
 import { linkCommand } from "../commands/link.js";
+import { configCommand } from "../commands/config.js";
 
 const program = new Command();
 
@@ -17,13 +18,13 @@ function showBanner() {
   ██║     ╚██████╔╝██║  ██║╚██████╔╝██║██╔╝ ██╗
   ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═╝
   `));
-  console.log(chalk.gray(`  v1.0.6 - The Elite Scaffolding Engine\n`));
+  console.log(chalk.gray(`  v1.0.7 - The Identity & Automation Update\n`));
 }
 
 program
   .name("forgix")
   .description("An elite project scaffolding CLI")
-  .version("1.0.6");
+  .version("1.0.7");
 
 showBanner();
 
@@ -32,5 +33,6 @@ program.addCommand(addCommand);
 program.addCommand(listCommand);
 program.addCommand(doctorCommand);
 program.addCommand(linkCommand);
+program.addCommand(configCommand);
 
 program.parse(process.argv);
