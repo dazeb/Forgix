@@ -36,46 +36,9 @@ Forgix handles everything: cloning, cleaning, injecting your info, installing de
 
 ---
 
-## 🏗️ What It Actually Does
+## ✨ What's New in v1.0.8
 
-When you run `forgix create my-app`, here's what happens:
-
-| Step | What Forgix Does |
-|------|------------------|
-| 1 | Fetches the template (built-in, GitHub, or your custom link) |
-| 2 | Copies files to your new project folder |
-| 3 | Replaces `{{author}}`, `{{license}}`, `{{projectName}}` with your info |
-| 4 | Injects any plugins or customizations (Docker, ESLint, etc.) |
-| 5 | Runs `npm install` (or yarn/pnpm) to install dependencies |
-| 6 | Runs `git init` with an initial commit |
-| 7 | Opens the project in VS Code |
-
-All in one command.
-
----
-
-## 📦 Templates Included
-
-### Frontend
-- `react-vite` — React + Vite
-- `react-vite-ts` — React + Vite + TypeScript
-- `vue-app` — Vue.js 3
-- `nextjs` — Next.js 14
-- `svelte` — Svelte 4
-
-### Backend
-- `node-api` — Node.js Express API
-- `express-ts` — Express + TypeScript
-- `python-script` — Python script
-- `fastapi` — Python FastAPI
-
-### Remote
-- Any public GitHub repo with `--template github:user/repo`
-
----
-
-## 🧩 CLI Flags & Options
-
+### 🧩 CLI Flags
 ```bash
 forgix create my-app [options]
 ```
@@ -83,28 +46,66 @@ forgix create my-app [options]
 | Flag | Description |
 |------|-------------|
 | `-t, --template <name>` | Choose a template |
-| `--pm <npm|yarn|pnpm>` | Package manager to use |
+| `--pm <npm\|yarn\|pnpm>` | Package manager |
 | `--ts` | Use TypeScript |
 | `--js` | Use JavaScript (default) |
-| `--css <tailwind|sass>` | Add CSS framework |
+| `--css <tailwind\|sass>` | Add CSS framework |
 | `--docker` | Add Docker support |
-| `--eslint` | Add ESLint configuration |
-| `--prettier` | Add Prettier configuration |
-| `--test` | Add Jest testing setup |
-| `--ci` | Add GitHub Actions CI workflow |
-| `--git` | Initialize git repository |
+| `--eslint` | Add ESLint config |
+| `--prettier` | Add Prettier config |
+| `--test` | Add Jest testing |
+| `--ci` | Add GitHub Actions CI |
+| `--git` | Initialize git repo |
 | `--open` | Open in VS Code |
-| `--skip-install` | Skip dependency installation |
+| `--skip-install` | Skip dependency install |
 
-### Examples
+### 📦 Templates (9 Built-in)
 
-```bash
-# Interactive mode
-forgix create
+**Frontend:**
+- `react-vite` — React + Vite
+- `react-vite-ts` — React + Vite + TypeScript
+- `vue-app` — Vue.js 3
+- `nextjs` — Next.js 14
+- `svelte` — Svelte 4
 
-# One-liner with all options
-forgix create my-app --template react-vite --pm pnpm --ts --eslint --prettier --docker --ci --git --open
-```
+**Backend:**
+- `node-api` — Node.js Express API
+- `express-ts` — Express + TypeScript
+- `python-script` — Python script
+- `fastapi` — Python FastAPI
+
+**Remote:**
+- Any GitHub repo with `--template github:user/repo`
+
+### 🧩 Plugins (5 Available)
+- `docker` — Dockerfile + docker-compose
+- `tailwind` — Tailwind CSS setup
+- `eslint` — ESLint setup
+- `prettier` — Prettier setup
+- `jest` — Jest testing setup
+
+### ⚙️ Config Options
+Run `forgix config` to set your defaults:
+
+| Option | Description |
+|--------|-------------|
+| Default Template | Your preferred template |
+| Default Package Manager | npm, yarn, or pnpm |
+| Default Flags | Auto-apply flags (--git, --open, --eslint, etc.) |
+
+---
+
+## 🏗️ What It Actually Does
+
+| Step | What Forgix Does |
+|------|------------------|
+| 1 | Fetches the template (built-in, GitHub, or custom link) |
+| 2 | Copies files to your new project folder |
+| 3 | Replaces `{{author}}`, `{{license}}`, `{{projectName}}` |
+| 4 | Injects customizations (Docker, ESLint, etc.) |
+| 5 | Runs `npm install` (or yarn/pnpm) |
+| 6 | Runs `git init` with initial commit |
+| 7 | Opens project in VS Code |
 
 ---
 
@@ -112,12 +113,12 @@ forgix create my-app --template react-vite --pm pnpm --ts --eslint --prettier --
 
 | Command | What It Does |
 |---------|-------------|
-| `forgix create` | Create a new project from a template |
-| `forgix config` | Set your name and license (saved globally) |
-| `forgix doctor` | Check if Node, Git, NPM, and VS Code are installed |
-| `forgix list` | Show all available templates and plugins |
-| `forgix add <plugin>` | Add a plugin to your current project |
-| `forgix link <name>` | Link a local folder as a custom template |
+| `forgix create` | Create a new project |
+| `forgix config` | Set your global defaults |
+| `forgix doctor` | Check Node, Git, NPM, VS Code |
+| `forgix list` | Show templates and plugins |
+| `forgix add <plugin>` | Add plugin to current project |
+| `forgix link <name>` | Link a local folder as template |
 
 ---
 
@@ -130,45 +131,22 @@ npm install -g @7h41c/forgix
 
 ### Create a Project
 ```bash
-# Interactive mode (prompts for everything)
+# Interactive mode
 forgix create
 
-# One-liner (skip prompts)
-forgix create my-app --template react-vite --git --open
+# One-liner with all options
+forgix create my-app --template react-vite --pm pnpm --ts --eslint --prettier --docker --ci --git --open
 ```
 
-### Configure Your Identity (do once)
+### Configure Your Defaults (do once)
 ```bash
 forgix config
 ```
-This saves your name, license, default template, package manager, and default flags — Forgix uses them automatically for every new project.
-
-### Personalize Your Defaults
-When you run `forgix config`, you can set:
-
-| Option | Description |
-|--------|-------------|
-| Default Template | Your preferred template (used if no `--template` flag given) |
-| Default Package Manager | npm, yarn, or pnpm |
-| Default Flags | Choose flags to always apply (--git, --open, --eslint, etc.) |
-
-Once configured, you can just run:
-```bash
-forgix create my-app
-```
-And it will use your defaults automatically!
+Then just run `forgix create my-app` and it uses your defaults!
 
 ---
 
 ## 🧩 Variable Injection
-
-Templates can use placeholders that Forgix replaces:
-
-```html
-<!-- In your template files -->
-<h1>Welcome to {{projectName}}</h1>
-<!-- Becomes: <h1>Welcome to my-app</h1> -->
-```
 
 | Placeholder | Replaced With |
 |-------------|----------------|
@@ -180,7 +158,7 @@ Templates can use placeholders that Forgix replaces:
 
 ## 🗺️ Roadmap
 
-- [x] v1.0.8 — CLI flags, package managers, new templates, customizations
+- [x] v1.0.8 — CLI flags, package managers, new templates, config options
 - [x] v1.0.7 — Global config profile
 - [x] v1.0.6 — Plugin selection
 - [x] v1.0.5 — Custom template linking
@@ -191,9 +169,9 @@ Templates can use placeholders that Forgix replaces:
 
 ## 🔒 Security
 
-- **Remote templates:** When using `github:` templates, always verify the source is trusted
-- **Check package.json:** Look for suspicious `preinstall` or `postinstall` scripts before running `npm install`
-- Forgix removes `.git` from cloned repos to prevent accidental pushes to attacker-controlled remotes
+- **Remote templates:** Only use trusted `github:` sources
+- **Check package.json:** Look for suspicious `preinstall`/`postinstall` scripts
+- Forgix removes `.git` from cloned repos
 
 ---
 
@@ -201,7 +179,7 @@ Templates can use placeholders that Forgix replaces:
 
 1. Fork the repo
 2. Create a branch: `git checkout -b feature/your-feature`
-3. Commit your changes: `git commit -m "Add something"`
+3. Commit: `git commit -m "Add something"`
 4. Push: `git push origin feature/your-feature`
 5. Open a Pull Request
 
