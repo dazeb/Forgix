@@ -1,20 +1,36 @@
 import { Command } from "commander";
+import chalk from "chalk";
 import { createCommand } from "../commands/create.js";
 import { addCommand } from "../commands/add.js";
-import { listCommand } from "../commands/list.js"; // NEW IMPORT
+import { listCommand } from "../commands/list.js";
 import { doctorCommand } from "../commands/doctor.js";
 
 const program = new Command();
 
+// --- NEW: THE LOGO BANNER ---
+function showBanner() {
+  console.log(chalk.cyan(`
+  ███████╗ ██████╗ ██████╗  ██████╗ ██╗██╗  ██╗
+  ██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██║╚██╗██╔╝
+  █████╗  ██║   ██║██████╔╝██║  ███╗██║ ╚███╔╝ 
+  ██╔══╝  ██║   ██║██╔══██╗██║   ██║██║ ██╔██╗ 
+  ██║     ╚██████╔╝██║  ██║╚██████╔╝██║██╔╝ ██╗
+  ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═╝
+  `));
+  console.log(chalk.gray(`  v1.0.4 - The Elite Scaffolding Engine\n`));
+}
+
 program
   .name("forgix")
   .description("An elite project scaffolding CLI")
-  .version("1.0.2");
+  .version("1.0.4");
 
-// Register all commands
+// Show banner before executing commands
+showBanner();
+
 program.addCommand(createCommand);
 program.addCommand(addCommand);
-program.addCommand(listCommand); // NEW REGISTRATION
+program.addCommand(listCommand);
 program.addCommand(doctorCommand);
 
 program.parse(process.argv);

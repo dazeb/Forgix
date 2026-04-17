@@ -1,6 +1,7 @@
 import { Command } from "commander";
-import { input, select } from "@inquirer/prompts";
+import { input, select, Separator } from "@inquirer/prompts"; // Added Separator
 import { runCreate } from "../core/create.js";
+import chalk from "chalk";
 
 export const createCommand = new Command("create")
   .description("Scaffold a new project")
@@ -14,16 +15,22 @@ export const createCommand = new Command("create")
       let projectName = nameArg || await input({ message: "Project name:", default: "my-app" });
 
       let template = options.template || await select({
-        message: "Select template:",
+        message: "Select an Elite Template:",
         choices: [
-          { name: "Node.js API", value: "node-api" },
+          new Separator(chalk.yellow("--- 🌐 FRONTEND FRAMEWORKS ---")),
           { name: "React (Vite)", value: "react-vite" },
-          { name: "Python Script", value: "python-script" },
-          { name: "Vue.js App", value: "vue-app" }
+          { name: "Vue.js 3", value: "vue-app" },
+          
+          new Separator(chalk.blue("--- ⚙️ BACKEND & SCRIPTS ---")),
+          { name: "Node.js Express API", value: "node-api" },
+          { name: "Python Automation Script", value: "python-script" },
+          
+          new Separator(chalk.magenta("--- ☁️ REMOTE OPTIONS ---")),
+          { name: "Clone from GitHub (Enter URL)", value: "github-prompt" }
         ],
       });
 
-      // --- NEW QUESTIONS ---
+      // Questions for personalization
       const author = await input({ message: "Author Name:", default: "Developer" });
       const license = await select({
         message: "Select License:",
@@ -40,7 +47,7 @@ export const createCommand = new Command("create")
         skipInstall: options.skipInstall,
         git: options.git,
         open: options.open,
-        variables: { author, license } // PASSING DATA TO CORE
+        variables: { author, license }
       });
 
     } catch (error) {

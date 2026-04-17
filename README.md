@@ -13,90 +13,147 @@
 
 ## ⚡ What is Forgix?
 
-Forgix is not just a cloner; it's an intelligent **Project Architect**. Instead of manually copying files and editing configurations, Forgix automates the entire birth of a project—injecting your personal details, initializing your environment, and opening your workspace in seconds.
+Forgix is not just a cloner — it's an intelligent **Project Architect**.
+
+Instead of manually copying files and editing configurations, Forgix automates the entire project creation process:
+- Injects your personal details
+- Sets up your environment
+- Opens your workspace instantly
 
 ---
 
 ## ✨ Elite Features
 
-* **🎨 Visual Identity:** Sleek ASCII art branding and categorized, easy-to-read terminal menus for a premium developer experience.
-* **🩺 Forgix Doctor:** Built-in system diagnostics to ensure your Node, Git, and VS Code environments are healthy and ready to code.
-* **👤 Personalization Engine:** Automatically injects your **Name** and **License** into `package.json`, `index.html`, and README files dynamically.
-* **📂 Smart Scaffolding:** Choose from pre-configured templates (React, Vue, Node, Python) or clone any public GitHub repo instantly.
-* **🚀 Elite Flow:** Use `--git` to initialize your repo and `--open` to launch VS Code automatically the moment creation finishes.
+- 🎨 **Visual Identity**  
+  Sleek ASCII art branding and categorized, easy-to-read terminal menus.
+
+- 🩺 **Forgix Doctor**  
+  Built-in diagnostics to verify Node.js, Git, and VS Code setup.
+
+- 👤 **Personalization Engine**  
+  Automatically injects your **name** and **license** into:
+  - `package.json`
+  - `index.html`
+  - `README.md`
+
+- 📂 **Smart Scaffolding**  
+  - Use pre-built templates (React, Vue, Node, Python)  
+  - Or clone any public GitHub repository
+
+- 🚀 **Elite Flow**  
+  - `--git` → auto initialize repository  
+  - `--open` → launch VS Code instantly  
 
 ---
 
 ## 🚀 Installation
 
-You can run Forgix instantly without installing it globally using `npx`:
-
+### Run instantly (no install)
 ```bash
 npx @7h41c/forgix create
+```
 
-Or, install it globally to access the forgix command anywhere:
-
-Bash
+### Install globally
+```bash
 npm install -g @7h41c/forgix
+```
 
-🛠️ CLI CommandsCommandDescriptionforgix doctorRuns a system diagnostic check (Node, Git, VS Code).forgix listDisplays all locally available templates and plugins.forgix createStarts the interactive project scaffolding wizard.forgix add <plugin>Injects a plugin (like Docker) into an existing project.
+---
 
+## 🛠️ CLI Commands
 
-💻 Usage Examples
-1. The Interactive "Elite" Start
-The standard way to start. It will prompt you for project names, authors, and templates.
+| Command | Description |
+|--------|-------------|
+| `forgix doctor` | Run system diagnostics (Node, Git, VS Code) |
+| `forgix list` | Show available templates and plugins |
+| `forgix create` | Start interactive scaffolding wizard |
+| `forgix add <plugin>` | Inject a plugin (e.g. Docker) |
 
-Bash
+---
+
+## 💻 Usage Examples
+
+### 1. Interactive Mode (Standard)
+```bash
 forgix create
-2. The "Speed Mode" (Bypass Prompts)
-Perfect for power users who know exactly what they want.
+```
 
-Bash
+### 2. Speed Mode (Skip Prompts)
+```bash
 forgix create my-app --template react-vite --git --open
-3. The "Remote Clone"
-Turn any GitHub repository into a fresh template. It clones the repo and wipes the old Git history for you.
+```
 
-Bash
+### 3. Remote GitHub Template
+```bash
 forgix create remote-app --template github:user/repo
-🧩 Variable Injection
-Forgix automatically scans your template files and replaces the following placeholders:
+```
 
-{{projectName}}: Swapped with the name of your new folder.
+---
 
-{{author}}: Swapped with your name (provided during the prompt).
+## 🧩 Variable Injection
 
-{{license}}: Swapped with your chosen license (MIT, ISC, Apache).
+Forgix scans template files and replaces placeholders automatically:
 
-💡 Pro Tips
-Keep it Clean: Use forgix doctor before a big coding session to ensure your tools are correctly configured.
+| Variable | Description |
+|----------|------------|
+| `{{projectName}}` | Your project folder name |
+| `{{author}}` | Your name |
+| `{{license}}` | Selected license (MIT, ISC, Apache) |
 
-Auto-Open: Use the --open flag to skip the "cd folder" step and jump straight into VS Code.
+---
 
-Skip Install: Use --skip-install if you want to scaffold the files without waiting for node_modules to download.
+## 💡 Pro Tips
 
-🗺️ Roadmap
-[x] v1.0.4: ASCII Art branding & Categorized selection menus.
+- 🧼 **Keep it clean**  
+  Run:
+  ```bash
+  forgix doctor
+  ```
 
-[x] v1.0.3: System Diagnostics (Doctor) & Variable Injection.
+- ⚡ **Auto open project**
+  ```bash
+  --open
+  ```
 
-[ ] v1.0.5: Custom Template Linking (forgix link <path>).
+- ⏭️ **Skip dependency install**
+  ```bash
+  --skip-install
+  ```
 
-[ ] v1.0.6: Interactive Plugin Selection during the creation process.
+---
 
-🤝 Contributing
-Contributions make the open-source community an amazing place to learn and create.
+## 🗺️ Roadmap
 
-Fork the Project
+- [x] v1.0.3 — System diagnostics & variable injection  
+- [x] v1.0.4 — ASCII branding & categorized menus  
+- [ ] v1.0.5 — Custom template linking (`forgix link <path>`)  
+- [ ] v1.0.6 — Interactive plugin selection  
 
-Create your Feature Branch (git checkout -b feature/AmazingFeature)
+---
 
-Commit your Changes (git commit -m 'Add some AmazingFeature')
+## 🤝 Contributing
 
-Push to the Branch (git push origin feature/AmazingFeature)
+Contributions are welcome and help improve Forgix.
 
-Open a Pull Request
+### Steps:
+
+1. Fork the repository  
+2. Create a branch  
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. Commit your changes  
+   ```bash
+   git commit -m "Add AmazingFeature"
+   ```
+4. Push to your branch  
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+5. Open a Pull Request  
+
+---
 
 <div align="center">
-<p>Built with ❤️ by T7h41 and the Forgix Community.</p>
+  <p>Built with ❤️ by 7h41 and the Forgix Community.</p>
 </div>
-
