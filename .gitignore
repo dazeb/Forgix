@@ -1,2 +1,14 @@
 node_modules/
 dist/
+# Ignore test projects created during development
+/flow-test/
+/flow-test-2/
+/c0ffee/
+/my-app/
+/speed-test/
+/remote-test/
+/fast-remote/
+/my-python-app/
+
+# Better yet, ignore everything in the root except our actual source folders
+# (Only do this if you want to be super strict, otherwise just list the names above)
