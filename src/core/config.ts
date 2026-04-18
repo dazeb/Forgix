@@ -9,13 +9,19 @@ export interface ForgixConfig {
   defaultLicense: string;
   preferredEditor: string;
   autoGit: boolean;
+  defaultTemplate: string;
+  defaultPackageManager: "npm" | "yarn" | "pnpm";
+  defaultFlags: string[];
 }
 
 const defaultConfig: ForgixConfig = {
   defaultAuthor: "Developer",
   defaultLicense: "MIT",
   preferredEditor: "code",
-  autoGit: true
+  autoGit: true,
+  defaultTemplate: "react-vite",
+  defaultPackageManager: "npm",
+  defaultFlags: []
 };
 
 export async function getConfig(): Promise<ForgixConfig> {
@@ -34,4 +40,6 @@ export async function saveConfig(config: Partial<ForgixConfig>) {
   const current = await getConfig();
   const updated = { ...current, ...config };
   await fs.writeJson(CONFIG_PATH, updated, { spaces: 2 });
+  // SECURITY: Restrict config to owner-only (was world-readable)
+  fs.chmodSync(CONFIG_PATH, "0600");
 }

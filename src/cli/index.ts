@@ -18,13 +18,13 @@ function showBanner() {
   ██║     ╚██████╔╝██║  ██║╚██████╔╝██║██╔╝ ██╗
   ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═╝
   `));
-  console.log(chalk.gray(`  v1.0.7 - The Identity & Automation Update\n`));
+  console.log(chalk.gray(`  v1.1.0 - Agent-Aware Edition\n`));
 }
 
 program
   .name("forgix")
   .description("An elite project scaffolding CLI")
-  .version("1.0.7");
+.version("1.1.0");
 
 showBanner();
 

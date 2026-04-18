@@ -79,6 +79,8 @@ npm install -g @7h41c/forgix
 | `forgix add <plugin>` | Inject a plugin (e.g. Docker) |
 | `forgix link <name>` | Link any folder on your PC as a custom template |
 
+All commands support `--non-interactive` (or `-n`) and `FORGIX_NON_INTERACTIVE=1` for CI/agent use. See [🤖 Agent Mode](#-agent-mode) below.
+
 ---
 
 ## 💻 Usage Examples
@@ -104,6 +106,15 @@ forgix config
 forgix create my-app --git --open
 ```
 
+### 5. Non-Interactive / Agent Mode
+```bash
+forgix create my-app --non-interactive --template react-vite --git --author "Jane Doe" --license MIT
+forgix create my-app -n --template react-vite-ts --git --eslint --prettier --docker
+forgix config --set defaultAuthor="Jane Doe" defaultTemplate=react-vite
+forgix list --json
+forgix doctor --fix
+```
+
 ---
 
 ## 🧩 Variable Injection
@@ -115,6 +126,50 @@ Forgix scans template files and replaces placeholders automatically:
 | `{{projectName}}` | Your project folder name |
 | `{{author}}` | Your name |
 | `{{license}}` | Selected license (MIT, ISC, Apache) |
+
+---
+
+## 🤖 Agent Mode
+
+Forgix is fully agent-friendly — AI assistants, CI pipelines, and scripts can use every command without interactive prompts.
+
+### Environment Variable
+
+Set `FORGIX_NON_INTERACTIVE=1` to force non-interactive mode globally (e.g. in Dockerfiles or CI).
+
+### Create Flags
+
+| Flag | Description |
+|------|-------------|
+| `-n, --non-interactive` | Skip all prompts, use defaults |
+| `-a, --author <name>` | Author name |
+| `-l, --license <type>` | License (MIT, ISC, Apache-2.0, GPL-3.0) |
+| `-p, --plugins <plugins...>` | Plugins to inject (space-separated) |
+| `--trust-remote` | Auto-accept remote GitHub template clones |
+| `--pm, --package-manager <pm>` | Package manager (npm, yarn, pnpm) |
+
+All other flags (`--git`, `--eslint`, `--docker`, `--ts`, `--ci`, etc.) work in both interactive and non-interactive mode.
+
+### Config Flags
+
+| Flag | Description |
+|------|-------------|
+| `--show` | Display current config |
+| `--json` | Output config as JSON |
+| `--set <key=value...>` | Set config values non-interactively |
+
+### Doctor Flags
+
+| Flag | Description |
+|------|-------------|
+| `--fix` | Auto-fix issues without prompting |
+| `-n, --non-interactive` | Report only, no prompts |
+
+### JSON Output
+
+`forgix list --json` returns machine-readable template/plugin data. `forgix create --non-interactive` outputs a JSON summary on success.
+
+**Full reference:** See [`AGENT.md`](./AGENT.md) for complete agent integration documentation.
 
 ---
 
@@ -150,8 +205,8 @@ Forgix scans template files and replaces placeholders automatically:
 - [x] v1.0.5 — Custom template linking (`forgix link`)
 - [x] v1.0.4 — ASCII branding & categorized menus
 - [x] v1.0.3 — System diagnostics & variable injection
-- [ ] v1.0.8 — Forgix Cloud - Sync templates across machines
-- [ ] v1.0.9 — "Deep Lens" - Scan existing projects for missing plugins
+- [x] v1.0.8 — CLI flags, package managers, default config, agent mode
+- [ ] v1.0.9 — Forgix Cloud - Sync templates across machines
 
 ---
 
