@@ -42,7 +42,7 @@ export const createCommand = new Command("create")
       if (nameArg) {
         projectName = nameArg;
       } else if (nonInteractive) {
-        projectName = config.defaultAuthor ? `my-app` : "my-app";
+        projectName = "my-app";
         console.log(chalk.gray(`Using default project name: ${projectName}`));
       } else {
         projectName = await input({ message: "Project name:", default: "my-app" });
@@ -179,9 +179,10 @@ export const createCommand = new Command("create")
         nonInteractive
       });
 
-    } catch (error: any) {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       if (nonInteractive) {
-        console.error(chalk.red(`Error: ${error.message}`));
+        console.error(chalk.red(`Error: ${message}`));
       } else {
         console.log("\nExiting Forgix...");
       }

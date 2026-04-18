@@ -83,9 +83,9 @@ export async function runCreate(options: CreateOptions) {
           console.log(chalk.gray("Aborting for safety."));
           process.exit(1);
         }
-      } else if (trustRemote || nonInteractive) {
+      } else if (nonInteractive) {
         console.log(chalk.yellow("⚠️  Cloning remote template. Ensure you trust the source."));
-        // Auto-accept in non-interactive/trust-remote mode
+        // Auto-accept in non-interactive mode
       }
       
       const spinner = ora(`Cloning remote template from GitHub...`).start();
@@ -219,8 +219,9 @@ export async function runCreate(options: CreateOptions) {
       }, null, 2));
     }
 
-  } catch (error: any) {
-    console.log(chalk.red(`\n❌ Error: ${error.message}`));
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.log(chalk.red(`\n❌ Error: ${message}`));
     process.exit(1);
   }
 }
@@ -270,9 +271,7 @@ services:
 
   // ESLint: Add .eslintrc.json
   if (eslint) {
-    const eslintConfig = typescript 
-      ? path.join(targetPath, ".eslintrc.json")
-      : path.join(targetPath, ".eslintrc.json");
+    const eslintConfig = path.join(targetPath, ".eslintrc.json");
     
     if (!fs.existsSync(eslintConfig)) {
       const config = typescript

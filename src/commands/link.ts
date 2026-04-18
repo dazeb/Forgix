@@ -52,7 +52,7 @@ export const linkCommand = new Command("link")
     if (fs.existsSync(CONFIG_PATH)) {
       try {
         links = fs.readJsonSync(CONFIG_PATH);
-      } catch (err) {
+      } catch {
         // If file is corrupted, we start with an empty record
         links = {};
       }
@@ -60,10 +60,13 @@ export const linkCommand = new Command("link")
 
     // Add or update the link
     links[name] = absolutePath;
-    fs.writeJsonSync(CONFIG_PATH, links, { spaces: 2 });
-
-    // SECURITY: Restrict link config to owner-only (same as .forgix-config.json)
-    fs.chmodSync(CONFIG_PATH, "0600");
+    // Write with restrictive permissions atomically
+    const fd = fs.openSync(CONFIG_PATH, "w", 0o600);
+    try {
+      fs.writeSync(fd, JSON.stringify(links, null, 2));
+    } finally {
+      fs.closeSync(fd);
+    }
 
     console.log(chalk.green(`\n✅ Success! '${name}' is now linked to: ${absolutePath}`));
     console.log(chalk.gray(`You can now use: forgix create my-project --template ${name}\n`));
