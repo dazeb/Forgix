@@ -163,6 +163,51 @@ For pipeline use, run non-interactively:
 forgix create my-app -t react-vite --pm npm --ci --skip-install
 ```
 
+## Agent Mode (Non-Interactive)
+
+All commands support non-interactive mode for CI pipelines, scripts, and AI agents.
+
+Set `FORGIX_NON_INTERACTIVE=1` or pass `-n`/`--non-interactive` to skip prompts.
+
+### Additional Flags (create)
+
+| Flag | Description |
+|------|-------------|
+| `-n, --non-interactive` | Skip all prompts, use defaults and flags |
+| `-a, --author <name>` | Author name |
+| `-l, --license <type>` | License (MIT, ISC, Apache-2.0, GPL-3.0) |
+| `-p, --plugins <plugins...>` | Plugins to inject |
+| `--trust-remote` | Auto-accept remote GitHub template clones |
+
+### Other Commands
+
+| Command | Flags | Description |
+|---------|-------|-------------|
+| `forgix config --show` | | Display current config |
+| `forgix config --json` | | Output config as JSON |
+| `forgix config --set key=value` | | Set values non-interactively |
+| `forgix list --json` | | List templates/plugins as JSON |
+| `forgix doctor --fix` | | Auto-fix issues without prompting |
+| `forgix doctor -n` | | Report only, no prompts |
+
+### JSON Output
+
+`forgix create --non-interactive` outputs a JSON summary on success:
+
+```json
+{
+  "status": "created",
+  "name": "my-app",
+  "template": "react-vite",
+  "path": "/home/user/projects/my-app",
+  "packageManager": "npm",
+  "git": true,
+  "plugins": ["eslint"]
+}
+```
+
+Full reference: see [AGENT.md](./AGENT.md).
+
 ## Architecture
 
 ```

@@ -28,6 +28,8 @@ export interface CreateOptions {
   prettier?: boolean;
   test?: boolean;
   ci?: boolean;
+  trustRemote?: boolean;
+  nonInteractive?: boolean;
 }
 
 export async function runCreate(options: CreateOptions) {
@@ -46,7 +48,9 @@ export async function runCreate(options: CreateOptions) {
     eslint,
     prettier,
     test,
-    ci
+    ci,
+    trustRemote = false,
+    nonInteractive = false,
   } = options;
 
   const targetPath = path.join(process.cwd(), name);
@@ -69,14 +73,19 @@ export async function runCreate(options: CreateOptions) {
       
       const repoUrl = `https://github.com/${repoPart}.git`;
       
-      console.log(chalk.red.bold("\n⚠️  SECURITY WARNING"));
-      console.log(chalk.yellow("You are cloning a remote repository. Always inspect the code"));
-      console.log(chalk.yellow("for malicious 'postinstall' scripts before running installation commands.\n"));
-      
-      const proceed = await confirm({ message: "Do you trust this source and want to proceed?", default: true });
-      if (!proceed) {
-        console.log(chalk.gray("Aborting for safety."));
-        process.exit(1);
+      if (!trustRemote && !nonInteractive) {
+        console.log(chalk.red.bold("\n⚠️  SECURITY WARNING"));
+        console.log(chalk.yellow("You are cloning a remote repository. Always inspect the code"));
+        console.log(chalk.yellow("for malicious 'postinstall' scripts before running installation commands.\n"));
+        
+        const proceed = await confirm({ message: "Do you trust this source and want to proceed?", default: true });
+        if (!proceed) {
+          console.log(chalk.gray("Aborting for safety."));
+          process.exit(1);
+        }
+      } else if (nonInteractive) {
+        console.log(chalk.yellow("⚠️  Cloning remote template. Ensure you trust the source."));
+        // Auto-accept in non-interactive mode
       }
       
       const spinner = ora(`Cloning remote template from GitHub...`).start();
@@ -196,6 +205,19 @@ export async function runCreate(options: CreateOptions) {
     }
 
     console.log(`\n🚀 ${chalk.cyan(name)} is ready!\n`);
+
+    // 7. Agent-friendly summary output
+    if (nonInteractive) {
+      console.log(JSON.stringify({
+        status: "created",
+        name,
+        template,
+        path: targetPath,
+        packageManager,
+        git: !!git,
+        plugins: plugins || []
+      }, null, 2));
+    }
 
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
