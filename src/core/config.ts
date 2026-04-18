@@ -39,7 +39,11 @@ export async function getConfig(): Promise<ForgixConfig> {
 export async function saveConfig(config: Partial<ForgixConfig>) {
   const current = await getConfig();
   const updated = { ...current, ...config };
-  await fs.writeJson(CONFIG_PATH, updated, { spaces: 2 });
-  // SECURITY: Restrict config to owner-only (was world-readable)
-  fs.chmodSync(CONFIG_PATH, "0600");
+  // Write with restrictive permissions atomically (0600 = owner read/write only)
+  const fd = fs.openSync(CONFIG_PATH, "w", 0o600);
+  try {
+    fs.writeSync(fd, JSON.stringify(updated, null, 2));
+  } finally {
+    fs.closeSync(fd);
+  }
 }

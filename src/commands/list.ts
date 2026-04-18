@@ -27,7 +27,7 @@ export const listCommand = new Command("list")
     // --- NEW: LINKED CUSTOM TEMPLATES ---
     const CONFIG_PATH = path.join(os.homedir(), ".forgix-links.json");
     if (fs.existsSync(CONFIG_PATH)) {
-      const links = fs.readJsonSync(CONFIG_PATH);
+      const links: Record<string, string> = fs.readJsonSync(CONFIG_PATH);
       console.log(chalk.yellow("\n🔗 Linked Custom Templates:"));
       Object.keys(links).forEach(name => {
         console.log(`  - ${name} ${chalk.gray(`(${links[name]})`)}`);

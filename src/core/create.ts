@@ -197,8 +197,9 @@ export async function runCreate(options: CreateOptions) {
 
     console.log(`\n🚀 ${chalk.cyan(name)} is ready!\n`);
 
-  } catch (error: any) {
-    console.log(chalk.red(`\n❌ Error: ${error.message}`));
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.log(chalk.red(`\n❌ Error: ${message}`));
     process.exit(1);
   }
 }
@@ -248,9 +249,7 @@ services:
 
   // ESLint: Add .eslintrc.json
   if (eslint) {
-    const eslintConfig = typescript 
-      ? path.join(targetPath, ".eslintrc.json")
-      : path.join(targetPath, ".eslintrc.json");
+    const eslintConfig = path.join(targetPath, ".eslintrc.json");
     
     if (!fs.existsSync(eslintConfig)) {
       const config = typescript
