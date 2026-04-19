@@ -3,8 +3,9 @@
 CLI project scaffolding tool with template versioning, post-scaffold hooks, governance checks, registry support, and composition. Generates production-ready project structures with lifecycle management.
 
 ```
-npm install -g @7h41c/forgix
-forgix create my-app --template react-vite --ts --ci --docker
+npm install -g @fourlinx/forgix
+# or use without installing
+npx @fourlinx/forgix create my-app --template react-vite --ts --ci --docker
 ```
 
 ## What It Does
@@ -16,7 +17,9 @@ For CI/CD pipelines, it runs non-interactively when all required flags are provi
 ## Install
 
 ```bash
-npm install -g @7h41c/forgix
+npm install -g @fourlinx/forgix
+# or
+npx @fourlinx/forgix create
 ```
 
 Requires: Node.js >= 22, Git (optional, for `--git` and remote templates).
